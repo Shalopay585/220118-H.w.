@@ -35,23 +35,47 @@ void printRectangles(const Rectangle* obj, int size)
         cout << "Rectangle #" << i + 1 << ":\tLength: " << obj[i].length << "\tWidth: " << obj[i].width  << endl;
 }
 
+float getNum(string message, int min = 0, int max = 0)
+{
+    float num;
+    bool err{};
+    do
+    {
+        err = false;
+        cout << message;
+        cin >> num;
+
+        if (cin.fail())
+        {
+            cin.clear();
+            cin.ignore(32767, '\n');
+            err = true;
+        }
+    } while ((num < min && (min != 0 || max != 0)) || num > max && max != 0 || err == true);
+
+    return num;
+}
+
 int main()
 {
     srand(time(NULL));
     rand();
 
-    cout << "Enter a size of array: ";
     int size;
-    cin >> size;
+
+    /*cout << "Enter a size of array: ";
+    cin >> size;*/
+
+    size = getNum("Enter a size of array: ", 1);
 
     Rectangle* arr = new Rectangle[size];
-    fillArrayRandom(arr, size, 3, 15);
+    fillArrayRandom(arr, size, 3, 20);
 
     printRectangles(arr, size);
 
     int indx = findMaxRectangle(arr, size);
 
-    cout << "\nThe most big rectangle ever...\t(" << arr[indx].length << ", " << arr[indx].width << ")\n\n";
+    cout << "\nThe most big rectangle ever is...  #" << indx << "\t(" << arr[indx].length << ", " << arr[indx].width << ")\n\n";
 
     for (int i = 0; i < arr[indx].width; ++i)
     {
